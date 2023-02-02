@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from datetime import datetime
@@ -7,29 +8,26 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 jwt = JWTManager()
 
-class Activity(db.Model):
-  __tablename__ = 'activities'
+class Tweet(db.Model):
+  __tablename__ = 'tweets'
 
-  id = db.Column(db.Integer, primary_key=True)
-  activity = db.Column(db.String)
-  type = db.Column(db.String)
-  participants = db.Column(db.Integer, default=1)
-  price = db.Column(db.Integer, default=0)
-  link = db.Column(db.String)
-  key = db.Column(db.String)
-  accessibility = db.Column(db.String)
+  id = db.Column(db.Integer, nullable=False, primary_key=True)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+  content = db.Column(db.Text, nullable=False)
+  likes = db.Column(db.Integer, nullable=True)
+  retweet_id = db.Column(db.Integer, nullable=True)
+  created_at = db.Column(db.DateTime, default=datetime.now())
 
-  def __init__(self, activity, type, participants, price, link, key, accessibility):
-    self.activity = activity
-    self.type = type
-    self.participants = participants
-    self.price = price
-    self.link = link
-    self.key = key
-    self.accessibility = accessibility
+class Comment(db.Model):
+  __tablename__ = 'comments'
 
-  def __repr__(self):
-    return f'<Activity {self.activity}'
+  id = db.Column(db.Integer, nullable=False, primary_key=True)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+  tweet_id = db.Column(db.Integer, db.ForeignKey('tweets.id'), nullable=False)
+  comment = db.Column(db.String(255), nullable=False)
+  created_at = db.Column(db.DateTime, default=datetime.now())
+
+  comments = db.relationship('Tweet', backref='comments')
 
 class User(db.Model):
   __tablename__ = 'users'
@@ -38,12 +36,19 @@ class User(db.Model):
   username = db.Column(db.String(16), nullable=False, unique=True)
   email = db.Column(db.Text, nullable=False)
   password = db.Column(db.Text, nullable=False)
+  name = db.Column(db.String(50), nullable=False)
+  image = db.Column(db.Text, nullable=True)
   created_at = db.Column(db.DateTime, default=datetime.now())
 
-  def __init__(self, username, email, password):
+  tweets = db.relationship('Tweet', backref='user')
+  comments = db.relationship('Comment', backref='user')
+
+  def __init__(self, username, email, password, name, image):
     self.username = username
     self.email = email
     self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
+    self.name = name
+    self.image = image
   
   @classmethod
   def authenticate(cls, username, password):
