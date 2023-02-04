@@ -13,7 +13,7 @@ class UserSchema(SQLAlchemyAutoSchema):
 # user_schema = UserSchema()
 # users_schema = UserSchema(many=True)
     model = User
-    loadInstance = True
+    load_instance = True
 
 user_schema = UserSchema(exclude=["password"])
 users_schema = UserSchema(exclude=["password"],many=True)
@@ -21,7 +21,7 @@ users_schema = UserSchema(exclude=["password"],many=True)
 class CommentSchema(SQLAlchemyAutoSchema):
   class Meta:
     model = Comment
-    loadInstance = True
+    load_instance = True
   user = Nested(UserSchema(exclude=["password"]), attribute="user")
 
 comment_schema = CommentSchema()
@@ -30,7 +30,7 @@ comments_schema = CommentSchema(many=True)
 class TweetSchema(SQLAlchemyAutoSchema):
   class Meta:
     model = Tweet
-    loadInstance = True
+    load_instance = True
   user = Nested(UserSchema(exclude=["password"]), attribute="user")
   comments = Nested(CommentSchema(many=True), attribute="comments")
 
@@ -40,8 +40,9 @@ tweets_schema = TweetSchema(many=True)
 class MessageSchema(SQLAlchemyAutoSchema):
   class Meta:
     model = Message
-    loadInstance = True
-  sender = Nested(UserSchema(exclude=["password"]), attribute="sender")
+    load_instance = True
+  
+  # sender = Nested(UserSchema(), attribute="sender")
 
 message_schema = MessageSchema()
 messages_schema = MessageSchema(many=True)
@@ -49,9 +50,19 @@ messages_schema = MessageSchema(many=True)
 class SenderSchema(SQLAlchemyAutoSchema):
   class Meta:
     model = User
-    loadInstance = True
+    load_instance = True
   
   messages = Nested(MessageSchema(), attribute="messages", many=True)
 
 sender_schema = SenderSchema(exclude=["password"])
 senders_schema = SenderSchema(exclude=["password"],many=True)
+
+class ConvoSchema(SQLAlchemyAutoSchema):
+  class Meta:
+    model = Message
+    load_instance = True
+  
+  sender = Nested(UserSchema(exclude=["password"]), attribute="sender")
+
+convo_schema = ConvoSchema()
+convos_schema = ConvoSchema(many=True)

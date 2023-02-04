@@ -41,11 +41,14 @@ class ShowUserMessages(Resource):
 
 class ShowConversation(Resource):
   def get(self, user_id, recipient_id):
-    # sender_list = User.query.join(Message, Message.user_id == User.id).filter(Message.recipient_id == recipient_id, Message.user_id == user_id).all()
-    receiver_list = User.query.join(Message, Message.user_id == User.id).filter(Message.recipient_id == user_id, Message.user_id == recipient_id).all()
-    # sender_list = Message.query.filter_by(recipient_id=user_id).options(lazyload(Message.sender))
-    message_list = Message.query.options(lazyload(Message.sender)).filter_by(recipient_id=user_id).all()
-    # message_list = Message.query.filter_by(recipient_id=user_id).join(User, User.id == Message.user_id).group_by(Message.id).all()
-     
+    # sender_list = User.query.join(Message, Message.user_id == User.id).filter(Message.recipient_id == recipient_id, Message.user_id == user_id).first()
+    receiver_list = Message.query.join(User, Message.user_id == User.id).filter(Message.recipient_id == user_id, Message.user_id == recipient_id).all()
+    sender_list = Message.query.join(User, Message.user_id == User.id).filter(Message.recipient_id == recipient_id, Message.user_id == user_id).all()
+    # sender_list = Message.query.filter(Message.recipient_id == recipient_id, Message.user_id == user_id).options(lazyload(User.sender)).all()
+    # receiver_list = User.query.join(Message, Message.user_id == User.id).filter(Message.recipient_id == user_id, Message.user_id == recipient_id).first()
     
-    return messages_schema.dump(message_list), 201
+    return convos_schema.dump([*sender_list, *receiver_list]), 201
+    # return {
+    #   'sender': convos_schema.dump(sender_list),
+    #   'receiver': convos_schema.dump(receiver_list)
+    # }
