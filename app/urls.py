@@ -3,6 +3,7 @@ from flask_restful import Api
 from .controllers.tweet_controller import *
 from .controllers.users_controller import *
 from .controllers.comments_controller import *
+from .controllers.messages_controller import *
 
 api = Api()
 
@@ -27,3 +28,9 @@ api.add_resource(DeleteTweet, '/tweet/<int:id>')
 # Comments
 
 api.add_resource(CreateComment, '/comment')
+
+# Messages
+
+api.add_resource(SendMessage, '/messages')
+api.add_resource(ShowUserMessages, '/messages/<int:user_id>')
+api.add_resource(ShowConversation, '/messages/<int:user_id>/<int:recipient_id>')

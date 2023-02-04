@@ -15,6 +15,7 @@ marshmallow-sqlalchemy = "*"
 flask-cors = "*"
 flask-restful = "*"
 python-dotenv = "*"
+flask-socketio = "*"
 
 [dev-packages]
 

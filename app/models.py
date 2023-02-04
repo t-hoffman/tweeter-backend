@@ -16,7 +16,7 @@ class Tweet(db.Model):
   content = db.Column(db.Text, nullable=False)
   likes = db.Column(db.Integer, nullable=True)
   retweet_id = db.Column(db.Integer, nullable=True)
-  created_at = db.Column(db.DateTime, default=datetime.now())
+  created_at = db.Column(db.DateTime, default=datetime.now)
 
 class Comment(db.Model):
   __tablename__ = 'comments'
@@ -25,9 +25,28 @@ class Comment(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
   tweet_id = db.Column(db.Integer, db.ForeignKey('tweets.id'), nullable=False)
   comment = db.Column(db.String(255), nullable=False)
-  created_at = db.Column(db.DateTime, default=datetime.now())
+  created_at = db.Column(db.DateTime, default=datetime.now)
 
   comments = db.relationship('Tweet', backref='comments')
+
+class Message(db.Model):
+  __tablename__ = 'messages'
+
+  id = db.Column(db.Integer, nullable=False, primary_key=True)
+  user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+  recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+  message = db.Column(db.Text, nullable=False)
+  created_at = db.Column(db.DateTime, default=datetime.now)
+  
+  sender = db.relationship('User', foreign_keys="[Message.user_id]")
+
+  def __init__(self, user_id, recipient_id, message):
+    self.user_id = user_id
+    self.recipient_id = recipient_id
+    self.message = message
+  
+  def __repr__(self):
+    return f'<Message: {self.message}'
 
 class User(db.Model):
   __tablename__ = 'users'
@@ -38,10 +57,12 @@ class User(db.Model):
   password = db.Column(db.Text, nullable=False)
   name = db.Column(db.String(50), nullable=False)
   image = db.Column(db.Text, nullable=True)
-  created_at = db.Column(db.DateTime, default=datetime.now())
+  banner = db.Column(db.Text, nullable=True)
+  created_at = db.Column(db.DateTime, default=datetime.now)
 
   tweets = db.relationship('Tweet', backref='user')
   comments = db.relationship('Comment', backref='user')
+  messages = db.relationship('Message', backref='messages', foreign_keys="[Message.user_id]")
 
   def __init__(self, username, email, password, name, image):
     self.username = username

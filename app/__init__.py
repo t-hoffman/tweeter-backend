@@ -14,6 +14,7 @@ def create_app():
   CORS(app)
   app.config.from_object(config['development'])
   app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
+  # app.config['SQLALCHEMY_ECHO'] = True
   
   db.init_app(app)
   migrate.init_app(app, db)
