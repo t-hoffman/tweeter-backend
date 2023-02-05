@@ -67,12 +67,13 @@ class User(db.Model):
   messages = db.relationship('Message', backref='messages', foreign_keys="[Message.user_id]")
   # sender = db.relationship('Message', backref='sender', foreign_keys="[Message.user_id]")
   
-  def __init__(self, username, email, password, name, image):
+  def __init__(self, username, email, password, name, image, banner):
     self.username = username
     self.email = email
     self.password = bcrypt.generate_password_hash(password).decode('UTF-8')
     self.name = name
     self.image = image
+    self.banner = banner
   
   @classmethod
   def authenticate(cls, username, password):

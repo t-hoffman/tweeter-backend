@@ -22,7 +22,8 @@ class Register(Resource):
         username = user['username'],
         email = user['email'],
         password = user['password'],
-        image = user['image']
+        image = user['image'],
+        banner = user['banner']
       )
       db.session.add(new_user)
       db.session.commit()
