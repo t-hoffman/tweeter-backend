@@ -41,6 +41,7 @@ class MessageSchema(SQLAlchemyAutoSchema):
   class Meta:
     model = Message
     load_instance = True
+    include_fk = True
   
   # sender = Nested(UserSchema(), attribute="sender")
 

@@ -34,7 +34,7 @@ class SendMessage(Resource):
 class ShowUserMessages(Resource):
   def get(self, user_id):
     try:
-      message_list = User.query.join(Message, Message.user_id == User.id).filter(Message.recipient_id == user_id).all()
+      message_list = User.query.join(Message, Message.user_id == User.id).filter((Message.recipient_id == user_id) | (Message.user_id == user_id)).all()
       print(message_list)
       
       return senders_schema.dump(message_list), 200
