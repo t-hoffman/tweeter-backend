@@ -57,12 +57,24 @@ class SenderSchema(SQLAlchemyAutoSchema):
 sender_schema = SenderSchema(exclude=["password"])
 senders_schema = SenderSchema(exclude=["password"],many=True)
 
+
 class ConvoSchema(SQLAlchemyAutoSchema):
   class Meta:
     model = Message
     load_instance = True
   
   sender = Nested(UserSchema(exclude=["password"]), attribute="sender")
+  # receiver = Nested(UserSchema(), attribute="receiver")
 
 convo_schema = ConvoSchema()
 convos_schema = ConvoSchema(many=True)
+
+class ShowConvoSchema(SQLAlchemyAutoSchema):
+  class Meta:
+    model = User
+    load_instance = True
+  
+  messages = Nested(ConvoSchema(), attribute="messages", many=True)
+
+show_convo_schema = ShowConvoSchema()
+show_convos_schema = ShowConvoSchema(many=True)
