@@ -39,8 +39,8 @@ class Message(db.Model):
   created_at = db.Column(db.DateTime, default=datetime.now)
   # user = db.relationship('User', backref='user', foreign_keys="[Message.user_id]")
   
-  sender = db.relationship('User', backref='sender', foreign_keys='[Message.user_id]')
-  receiver = db.relationship('User', backref='receiver', foreign_keys='[Message.recipient_id]')
+  sender = db.relationship('User', backref='sender', foreign_keys='[Message.user_id]', viewonly=True)
+  # receiver = db.relationship('User', backref='receiver', foreign_keys='[Message.recipient_id]')
   
   def __init__(self, user_id, recipient_id, message):
     self.user_id = user_id
@@ -64,7 +64,7 @@ class User(db.Model):
 
   tweets = db.relationship('Tweet', backref='user')
   comments = db.relationship('Comment', backref='user')
-  messages = db.relationship('Message', backref='messages', foreign_keys="[Message.user_id]")
+  messages = db.relationship('Message', backref='messages', foreign_keys="[Message.user_id]", viewonly=True)
   # sender = db.relationship('Message', backref='sender', foreign_keys="[Message.user_id]")
   
   def __init__(self, username, email, password, name, image, banner):

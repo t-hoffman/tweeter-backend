@@ -16,6 +16,7 @@ flask-cors = "*"
 flask-restful = "*"
 python-dotenv = "*"
 flask-socketio = "*"
+eventlet = "*"
 
 [dev-packages]
 
