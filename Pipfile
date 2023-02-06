@@ -17,6 +17,7 @@ flask-restful = "*"
 python-dotenv = "*"
 flask-socketio = "*"
 eventlet = "*"
+gunicorn = "*"
 
 [dev-packages]
 
