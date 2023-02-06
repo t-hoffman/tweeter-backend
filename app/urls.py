@@ -28,6 +28,7 @@ api.add_resource(DeleteTweet, '/tweet/<int:id>')
 # Comments
 
 api.add_resource(CreateComment, '/comment')
+api.add_resource(DeleteComment, '/comment/<int:id>')
 
 # Messages
 

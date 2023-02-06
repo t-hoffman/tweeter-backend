@@ -28,3 +28,16 @@ class CreateComment(Resource):
       return {'error': str(e)}, 418
     finally:
       db.session.commit()
+
+
+class DeleteComment(Resource):
+  @jwt_required()
+  def delete(self, id):
+    try:
+      delete_comment = Comment.query.get_or_404(id)
+      db.session.delete(delete_comment)
+      db.session.commit()
+
+      return True
+    except Exception as e:
+      return {'error': str(e)}, 418
