@@ -10,7 +10,7 @@ class Config:
 
 class DevelopmentConfig(Config):
   DEBUG = True
-  SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI')
+  SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL')
 
 config = {
   'development': DevelopmentConfig
