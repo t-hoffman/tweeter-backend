@@ -29,6 +29,7 @@ class Register(Resource):
       db.session.commit()
       return {'message': True}
     except Exception as e:
+      print(e)
       return {'error': str(e)}, 418
 
 class Login(Resource):

@@ -2,7 +2,7 @@ from .models import *
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
 from flask_marshmallow import Marshmallow
-import app
+import api
 
 # ma = Marshmallow(app)
 

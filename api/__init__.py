@@ -17,12 +17,17 @@ def create_app():
   app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
   # app.config['SQLALCHEMY_ECHO'] = True
   
-  app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL').replace("://", "ql://", 1)
+  app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('POSTGRES_URL').replace("://", "ql://", 1)
 
   db.init_app(app)
   migrate.init_app(app, db)
   bcrypt.init_app(app)
   jwt.init_app(app)
   api.init_app(app)
+
+  with app.app_context():
+    db.create_all()
   
   return app
+
+app = create_app()

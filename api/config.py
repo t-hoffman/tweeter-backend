@@ -11,7 +11,7 @@ class Config:
 
 class DevelopmentConfig(Config):
   DEBUG = True
-  SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL')
+  SQLALCHEMY_DATABASE_URI = environ.get('POSTGRES_URL')
 
 config = {
   'development': DevelopmentConfig
