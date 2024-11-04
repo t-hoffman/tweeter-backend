@@ -8,30 +8,30 @@ from .controllers.messages_controller import *
 api = Api()
 
 # User URLS
-api.add_resource(Register, '/register')
-api.add_resource(Login, '/login')
-api.add_resource(Logout, '/logout')
-api.add_resource(UsersList, '/users')
-api.add_resource(VerifyUser, '/verify')
-api.add_resource(GetUserInfo, '/users/<int:user_id>')
-api.add_resource(UpdateUser, '/users/<int:user_id>')
+api.add_resource(Register, '/api/register')
+api.add_resource(Login, '/api/login')
+api.add_resource(Logout, '/api/logout')
+api.add_resource(UsersList, '/api/users')
+api.add_resource(VerifyUser, '/api/verify')
+api.add_resource(GetUserInfo, '/api/users/<int:user_id>')
+api.add_resource(UpdateUser, '/api/users/<int:user_id>')
 
 # Tweet URLS
 
-api.add_resource(ShowAllTweets, '/tweets')
-api.add_resource(ShowUserTweets, '/tweets/<int:user_id>')
-api.add_resource(CreateTweet, '/tweet')
-api.add_resource(ShowTweet, '/tweet/<int:id>')
-api.add_resource(ChangeTweet, '/tweet/<int:id>')
-api.add_resource(DeleteTweet, '/tweet/<int:id>')
+api.add_resource(ShowAllTweets, '/api/tweets')
+api.add_resource(ShowUserTweets, '/api/tweets/<int:user_id>')
+api.add_resource(CreateTweet, '/api/tweet')
+api.add_resource(ShowTweet, '/api/tweet/<int:id>')
+api.add_resource(ChangeTweet, '/api/tweet/<int:id>')
+api.add_resource(DeleteTweet, '/api/tweet/<int:id>')
 
 # Comments
 
-api.add_resource(CreateComment, '/comment')
-api.add_resource(DeleteComment, '/comment/<int:id>')
+api.add_resource(CreateComment, '/api/comment')
+api.add_resource(DeleteComment, '/api/comment/<int:id>')
 
 # Messages
 
-api.add_resource(SendMessage, '/messages')
-api.add_resource(ShowUserMessages, '/messages/<int:user_id>')
-api.add_resource(ShowConversation, '/messages/<int:user_id>/<int:recipient_id>')
+api.add_resource(SendMessage, '/api/messages')
+api.add_resource(ShowUserMessages, '/api/messages/<int:user_id>')
+api.add_resource(ShowConversation, '/api/messages/<int:user_id>/<int:recipient_id>')
